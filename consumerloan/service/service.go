@@ -2,7 +2,7 @@ package service
 
 import (
 	"encoding/json"
-	"gateway/service_a/model"
+	"gateway/consumerloan/model"
 	"net/http"
 )
 
@@ -15,7 +15,7 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 	} else {
 		resp := model.JSONResponse{
 			Result: "OK",
-			Reason: "Service A",
+			Reason: "Consumerloan Service",
 		}
 		SetCookie(w)
 		// respon := map[string]string{"Result": "ok", "Service": "c"}
@@ -43,6 +43,7 @@ func HandleSearch(w http.ResponseWriter, r *http.Request) {
 		"Name":     "Arga",
 		"Address":  "Jalan Sudirman",
 	}
+
 	w.WriteHeader(http.StatusOK)
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)

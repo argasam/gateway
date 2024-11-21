@@ -35,26 +35,38 @@ func ServiceRequest(w http.ResponseWriter, r *http.Request, serviceURL string) {
 	}
 
 	// Parse the service response
-	var serviceResponse map[string]string
+	var serviceResponse map[string]interface{}
 	if err := json.Unmarshal(body, &serviceResponse); err != nil {
 		ErrorResponse(w, http.StatusInternalServerError, "Failed to parse service response")
 		return
 	}
+	log.Println(serviceResponse)
 
 	// Create the encapsulated response
 	response := model.JSONResponse{
 		Code:   resp.StatusCode,
-		Result: serviceResponse["Result"],
+		Result: getResponse(serviceResponse),
 	}
 
 	cookies := resp.Cookies()
 	log.Println(cookies)
-	for _, cookie := range cookies {
-		http.SetCookie(w, cookie)
-		log.Printf("%s %s %s %v", cookie.Name, cookie.Value, cookie.Path, cookie.HttpOnly)
+	log.Println(len(cookies))
+	if len(cookies) > 0 {
+		for _, cookie := range cookies {
+			http.SetCookie(w, cookie)
+			log.Printf("%s %s %s %v", cookie.Name, cookie.Value, cookie.Path, cookie.HttpOnly)
+		}
 	}
+
 	// Set the header and write the response
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(resp.StatusCode)
 	json.NewEncoder(w).Encode(response)
+}
+
+func getResponse(rawResponse map[string]interface{}) interface{} {
+	if result, isThere := rawResponse["Result"]; result != "" && isThere {
+		return result
+	}
+	return rawResponse
 }

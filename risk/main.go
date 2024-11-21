@@ -1,15 +1,14 @@
 package main
 
 import (
-	"gateway/service_a/service"
+	"gateway/risk/service"
 	"log"
 	"net/http"
 )
 
 func main() {
-	port := ":8081"
+	port := ":8083"
 	http.HandleFunc("/", service.HandleRequest)
-	http.HandleFunc("/search", service.HandleSearch)
 	log.Printf("Starting server on %s\n", port)
 	err := http.ListenAndServe(port, nil)
 	if err != nil {

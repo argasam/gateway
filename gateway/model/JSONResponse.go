@@ -1,6 +1,6 @@
 package model
 
 type JSONResponse struct {
-	Code   int    `json:"Code"`
-	Result string `json:"Result"`
+	Code   int         `json:"Code"`
+	Result interface{} `json:"Result"`
 }
