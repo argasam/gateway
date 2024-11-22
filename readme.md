@@ -1,22 +1,29 @@
-# !Before doing anything
-### Create Venv
-```bash
-python3 -m venv venv2
-source venv2/bin/activate
-pip install -r requirements.txt
-```
+# Gateway
+This repository showcase implemetation of Gateway handling multiple services on GOLang.
 
-# command to run headless (Non-UI)
-```bash
-locust -f "replace w/ direction to file","replace with custom laod" --headless --html performance_reports/results_$(date +%Y%m%d%H%M%S).html
-```
+In this showcase, gateway will receive request for 3 services (consumerloan, cashloan, and risk)
 
-### example
-```bash
-locust -f locust/test_steps/get_consumerloan_search.py,locust/load_shape/load1.py --headless --html locust/performance_reports/results_$(date +%Y%m%d%H%M%S).html
-```
+##  Path
+### 1. consumerloan
+- /gateway/consumerloan
 
-# command to run with UI
-```bash
-locust -f locust --class-picker
-```
+Method: GET
+Returning Status of the service with cookies
+
+- /gateway/consumerloan/search 
+
+Method: GET
+Required: Cookies with SessionId Key
+Returning Status of the service with cookies
+
+### 2. cashloan
+- /gateway/cashloan
+
+Method: GET
+Returning Status of the service with cookies
+
+### 3. risk
+- /gateway/risk
+
+Method: GET
+Returning Status of the service with cookies
