@@ -64,6 +64,11 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/gateway/risk", func(w http.ResponseWriter, r *http.Request) {
+		// Redirect to ensure trailing slash is handled consistently
+		http.Redirect(w, r, "/gateway/risk/", http.StatusMovedPermanently)
+	})
+
 	port := ":8080"
 	log.Printf("Start Gateway on Port %s\n", port)
 	if err := http.ListenAndServe(port, nil); err != nil {
