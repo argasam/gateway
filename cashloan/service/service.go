@@ -14,8 +14,8 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w)
 	} else {
 		resp := model.JSONResponse{
-			Result: "OK",
-			Reason: "Cashloan Service",
+			Result:  "OK",
+			Service: "Cashloan Service",
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")

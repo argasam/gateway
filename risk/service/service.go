@@ -14,8 +14,8 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 		json.NewEncoder(w)
 	} else {
 		resp := model.JSONResponse{
-			Result: "OK",
-			Reason: "Risk Service",
+			Result:  "OK",
+			Service: "Risk Service",
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
@@ -27,8 +27,8 @@ func HandleSearch(w http.ResponseWriter, r *http.Request) {
 	err := FindCookie(w, r)
 	if !err {
 		errResp := model.JSONResponse{
-			Result: "Not Authorized",
-			Reason: "Please use '/' first to get cookies",
+			Result:  "Not Authorized",
+			Service: "Please use '/' first to get cookies",
 		}
 		w.WriteHeader(http.StatusUnauthorized)
 		w.Header().Set("Content-Type", "application/json")

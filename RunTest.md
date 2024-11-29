@@ -8,7 +8,7 @@ pip install -r requirements.txt
 
 # command to run headless (Non-UI)
 ```bash
-locust -f "replace w/ direction to file","replace with custom laod" --headless --html performance_reports/results_$(date +%Y%m%d%H%M%S).html
+locust -f "replace w/ direction to file","replace with custom load" --headless --html performance_reports/results_$(date +%Y%m%d%H%M%S).html
 ```
 
 ### example

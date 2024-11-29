@@ -1,6 +1,6 @@
 package model
 
 type JSONResponse struct {
-	Result string `json:"Result"`
-	Reason string `json:"Reason"`
+	Result  string `json:"Result"`
+	Service string `json:"Reason"`
 }
