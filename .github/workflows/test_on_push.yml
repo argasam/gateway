@@ -20,20 +20,45 @@ jobs:
       with:
         go-version: '1.20'
 
-    - name: run1
-      run: go run -v cashloan/main.go
-    
-    - name: run2
-      run: go run -v consumerloan/main.go
+    # Cache Go modules to speed up builds
+    - name: Cache Go modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/go-build
+        key: ${{ runner.os }}-go-${{ hashFiles('**/go.mod') }}
+        restore-keys: |
+          ${{ runner.os }}-go-
 
-    - name: run3
-      run: go run -v risk/main.go
+    # Build the services
+    - name: Build cashloan service
+      run: go build -v cashloan/main.go
 
-    - name: run4
-      run: go run -v gateway/main.go
+    - name: Build consumerloan service
+      run: go build -v consumerloan/main.go
 
-    - name: test
+    - name: Build risk service
+      run: go build -v risk/main.go
+
+    - name: Build gateway service
+      run: go build -v gateway/main.go
+
+    # Run the services (Make them listen on their respective ports)
+    - name: Run cashloan service
+      run: ./cashloan/main &
+
+    - name: Run consumerloan service
+      run: ./consumerloan/main &
+
+    - name: Run risk service
+      run: ./risk/main &
+
+    - name: Run gateway service
+      run: ./gateway/main &
+
+    # Wait for the services to be up and running (optional)
+    - name: Wait for services to start
+      run: sleep 5 # Wait 5 seconds (adjust as needed)
+
+    # Run tests for the application
+    - name: Run tests
       run: go test -v automation_test/gateway_test.go
-
-    
-        
