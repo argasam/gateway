@@ -124,4 +124,4 @@ jobs:
     - name: Run tests
       run: |
         cd automation_test
-        go test -v gateway_test.go
+        go test -v gateway_test.go || exit 1
