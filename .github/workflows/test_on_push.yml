@@ -21,44 +21,107 @@ jobs:
         go-version: '1.20'
 
     # Cache Go modules to speed up builds
-    - name: Cache Go modules
+    - name: Cache Go modules for cashloan service
       uses: actions/cache@v3
       with:
-        path: ~/.cache/go-build
-        key: ${{ runner.os }}-go-${{ hashFiles('**/go.mod') }}
+        path: cashloan/pkg/mod
+        key: ${{ runner.os }}-cashloan-go-${{ hashFiles('cashloan/go.mod') }}
         restore-keys: |
-          ${{ runner.os }}-go-
+          ${{ runner.os }}-cashloan-go-
 
-    # Build the services
+    - name: Cache Go modules for consumerloan service
+      uses: actions/cache@v3
+      with:
+        path: consumerloan/pkg/mod
+        key: ${{ runner.os }}-consumerloan-go-${{ hashFiles('consumerloan/go.mod') }}
+        restore-keys: |
+          ${{ runner.os }}-consumerloan-go-
+
+    - name: Cache Go modules for risk service
+      uses: actions/cache@v3
+      with:
+        path: risk/pkg/mod
+        key: ${{ runner.os }}-risk-go-${{ hashFiles('risk/go.mod') }}
+        restore-keys: |
+          ${{ runner.os }}-risk-go-
+
+    - name: Cache Go modules for gateway service
+      uses: actions/cache@v3
+      with:
+        path: gateway/pkg/mod
+        key: ${{ runner.os }}-gateway-go-${{ hashFiles('gateway/go.mod') }}
+        restore-keys: |
+          ${{ runner.os }}-gateway-go-
+
+    # Install dependencies for each service
+    - name: Install dependencies for cashloan service
+      run: |
+        cd cashloan
+        go mod tidy
+
+    - name: Install dependencies for consumerloan service
+      run: |
+        cd consumerloan
+        go mod tidy
+
+    - name: Install dependencies for risk service
+      run: |
+        cd risk
+        go mod tidy
+
+    - name: Install dependencies for gateway service
+      run: |
+        cd gateway
+        go mod tidy
+
+    # Build each service
     - name: Build cashloan service
-      run: go build -v cashloan/main.go
+      run: |
+        cd cashloan
+        go build -v .
 
     - name: Build consumerloan service
-      run: go build -v consumerloan/main.go
+      run: |
+        cd consumerloan
+        go build -v .
 
     - name: Build risk service
-      run: go build -v risk/main.go
+      run: |
+        cd risk
+        go build -v .
 
     - name: Build gateway service
-      run: go build -v gateway/main.go
+      run: |
+        cd gateway
+        go build -v .
 
-    # Run the services (Make them listen on their respective ports)
+    # Run each service (Make them listen on their respective ports)
     - name: Run cashloan service
-      run: ./cashloan/main &
+      run: |
+        cd cashloan
+        ./main &
 
     - name: Run consumerloan service
-      run: ./consumerloan/main &
+      run: |
+        cd consumerloan
+        ./main &
 
     - name: Run risk service
-      run: ./risk/main &
+      run: |
+        cd risk
+        ./main &
 
     - name: Run gateway service
-      run: ./gateway/main &
+      run: |
+        cd gateway
+        ./main &
 
-    # Wait for the services to be up and running (optional)
+    # Wait for the services to start
     - name: Wait for services to start
-      run: sleep 5 # Wait 5 seconds (adjust as needed)
+      run: sleep 5 # Adjust as needed
 
     # Run tests for the application
     - name: Run tests
-      run: go test -v automation_test/gateway_test.go
+      run: |
+        cd automation_test
+        go test -v gateway_test.go
