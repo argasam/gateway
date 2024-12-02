@@ -99,22 +99,22 @@ jobs:
     - name: Run cashloan service
       run: |
         cd cashloan
-        ./main &
+        ./cashloan &
 
     - name: Run consumerloan service
       run: |
         cd consumerloan
-        ./main &
+        ./consumerloan &
 
     - name: Run risk service
       run: |
         cd risk
-        ./main &
+        ./risk &
 
     - name: Run gateway service
       run: |
         cd gateway
-        ./main &
+        ./gateway &
 
     # Wait for the services to start
     - name: Wait for services to start
