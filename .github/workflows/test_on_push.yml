@@ -115,6 +115,7 @@ jobs:
       run: |
         cd gateway
         ./gateway &
+    
 
     # Wait for the services to start
     - name: Wait for services to start
@@ -125,3 +126,7 @@ jobs:
       run: |
         cd automation_test
         go test -v gateway_test.go || exit 1
+
+    - name: Fail Test Deny push
+      run: exit 1
+      if: failure()
