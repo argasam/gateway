@@ -11,7 +11,7 @@ Feature: apiTest
         Then the "Result" should contain "OK"
 
     Scenario: Hit Cashloan Service
-        Given my API endpoint is "http://localhost:8081/gateway"
+        Given my API endpoint is "http://localhost:8080/gateway"
         When I accessed path "/cashloan"
         When I send a GET request
         Then the response status code should be 200
