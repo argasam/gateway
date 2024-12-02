@@ -18,7 +18,7 @@ Feature: apiTest
         Then the "Result" should contain "OK"
 
     Scenario: Hit Risk Service
-        Given my API endpoint is "http://localhost:8083/gateway"
+        Given my API endpoint is "http://localhost:8080/gateway"
         When I accessed path "/risk"
         When I send a GET request
         Then the response status code should be 200
