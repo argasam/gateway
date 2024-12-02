@@ -22,7 +22,7 @@ func ServiceRequest(w http.ResponseWriter, r *http.Request, serviceURL string) {
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		ErrorResponse(w, http.StatusBadGateway, "Failed to reach service")
+		ErrorResponse(w, http.StatusNotImplemented, "Gateway is available, but downstream services are unavailable")
 		return
 	}
 	defer resp.Body.Close()
@@ -30,14 +30,14 @@ func ServiceRequest(w http.ResponseWriter, r *http.Request, serviceURL string) {
 	// Read the response body
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		ErrorResponse(w, http.StatusInternalServerError, "Failed to read response")
+		ErrorResponse(w, http.StatusInternalServerError, "Gateway internal exception")
 		return
 	}
 
 	// Parse the service response
 	var serviceResponse map[string]interface{}
 	if err := json.Unmarshal(body, &serviceResponse); err != nil {
-		ErrorResponse(w, http.StatusInternalServerError, "Failed to parse service response")
+		ErrorResponse(w, http.StatusInternalServerError, "Gateway internal exception")
 		return
 	}
 	log.Println(serviceResponse)

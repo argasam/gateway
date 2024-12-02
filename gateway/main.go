@@ -30,14 +30,14 @@ func main() {
 	})
 
 	http.HandleFunc("/gateway/cashloan/", func(w http.ResponseWriter, r *http.Request) {
-		const serviceAURL = "http://localhost:8082"
+		const serviceBURL = "http://localhost:8082"
 		// Extract the custom path by trimming the "/gateway/" prefix
 		log.Printf("Extracted path: %s", r.URL.Path)
 		customPath := strings.TrimPrefix(r.URL.Path, "/gateway/cashloan")
 		log.Printf("Extracted custom path: %s", customPath)
 
 		// Build the full URL for the backend service
-		fullURL := fmt.Sprintf("%s%s", serviceAURL, customPath)
+		fullURL := fmt.Sprintf("%s%s", serviceBURL, customPath)
 		switch r.Method {
 		case http.MethodGet:
 			service.ServiceRequest(w, r, fullURL)
@@ -50,14 +50,14 @@ func main() {
 	})
 
 	http.HandleFunc("/gateway/risk/", func(w http.ResponseWriter, r *http.Request) {
-		const serviceAURL = "http://localhost:8083"
+		const serviceCURL = "http://localhost:8083"
 		// Extract the custom path by trimming the "/gateway/" prefix
 		log.Printf("Extracted path: %s", r.URL.Path)
 		customPath := strings.TrimPrefix(r.URL.Path, "/gateway/risk")
 		log.Printf("Extracted custom path: %s", customPath)
 
 		// Build the full URL for the backend service
-		fullURL := fmt.Sprintf("%s%s", serviceAURL, customPath)
+		fullURL := fmt.Sprintf("%s%s", serviceCURL, customPath)
 		switch r.Method {
 		case http.MethodGet:
 			service.ServiceRequest(w, r, fullURL)

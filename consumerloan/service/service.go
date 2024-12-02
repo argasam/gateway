@@ -15,7 +15,7 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 	} else {
 		resp := model.JSONResponse{
 			Result:  "OK",
-			Service: "Consumerloan Service",
+			Service: "Consumerloan",
 		}
 		SetCookie(w)
 		// respon := map[string]string{"Result": "ok", "Service": "c"}
@@ -29,10 +29,10 @@ func HandleSearch(w http.ResponseWriter, r *http.Request) {
 	err := FindCookie(w, r)
 	if !err {
 		errResp := model.JSONResponse{
-			Result:  "Forbidden",
-			Service: "Consumerloan Service",
+			Result:  "Bad Request, cookie required.",
+			Service: "Consumerloan",
 		}
-		w.WriteHeader(http.StatusForbidden)
+		w.WriteHeader(http.StatusBadRequest)
 		w.Header().Set("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(errResp)
 		return

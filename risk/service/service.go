@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"gateway/risk/model"
 	"net/http"
+	"time"
 )
 
 // Exported function to handle requests
 func HandleRequest(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(50 * time.Millisecond)
 	if r.URL.Path != "/" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Header().Set("Content-Type", "application/json")
@@ -15,7 +17,7 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 	} else {
 		resp := model.JSONResponse{
 			Result:  "OK",
-			Service: "Risk Service",
+			Service: "Risk",
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")

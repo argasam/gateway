@@ -8,6 +8,7 @@ import (
 
 // Exported function to handle requests
 func HandleRequest(w http.ResponseWriter, r *http.Request) {
+
 	if r.URL.Path != "/" {
 		w.WriteHeader(http.StatusNotFound)
 		w.Header().Set("Content-Type", "application/json")
@@ -15,7 +16,7 @@ func HandleRequest(w http.ResponseWriter, r *http.Request) {
 	} else {
 		resp := model.JSONResponse{
 			Result:  "OK",
-			Service: "Cashloan Service",
+			Service: "Cashloan",
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
