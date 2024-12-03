@@ -42,6 +42,11 @@ func ServiceRequest(w http.ResponseWriter, r *http.Request, serviceURL string) {
 	}
 	log.Println(serviceResponse)
 
+	if resp.StatusCode == 400 {
+		ErrorResponse(w, http.StatusInternalServerError, "Gateway internal exception")
+		return
+	}
+
 	// Create the encapsulated response
 	response := model.JSONResponse{
 		Code:   resp.StatusCode,

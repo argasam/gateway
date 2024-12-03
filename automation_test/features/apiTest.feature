@@ -39,4 +39,11 @@ Feature: apiTest
         When I send a GET request
         Then the response status code should be 200
 
+    Scenario: Hit /search on Consumerloan Service without cookies
+        Given my API endpoint is "http://localhost:8080/gateway"
+        When I accessed path "/consumerloan/search"
+        When I send a GET request
+        Then the response status code should be 500
+        Then the "Result" should contain "Bad Request, cookie required."
+
 

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -71,6 +72,11 @@ func iSetCookiesSessionId() error {
 	return nil
 }
 
+func clearCookies(ctx context.Context, sc *godog.Scenario) (context.Context, error) {
+	cookies = nil
+	return ctx, nil
+}
+
 func TestMain(t *testing.T) {
 	suite := godog.TestSuite{
 		ScenarioInitializer: InitializeScenario,
@@ -87,6 +93,7 @@ func TestMain(t *testing.T) {
 }
 
 func InitializeScenario(sc *godog.ScenarioContext) {
+	sc.Before(clearCookies)
 	sc.Given(`^my API endpoint is "([^"]*)"`, myAPIEndpointIs)
 	sc.When(`^I accessed path "([^"]*)"`, iAccessedPath)
 	sc.When(`^I send a GET request$`, iSendAGETRequest)
